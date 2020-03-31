@@ -1,0 +1,7 @@
+const starredActionTypes = {
+  FETCH_STARRED_START: 'FETCH_STARRED_START',
+  FETCH_STARRED_SUCCESS: 'FETCH_STARRED_SUCCESS',
+  FETCH_STARRED_FAILURE: 'FETCH_STARRED_FAILURE'
+};
+
+export default starredActionTypes;

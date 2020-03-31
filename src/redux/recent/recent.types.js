@@ -1,0 +1,7 @@
+const recentActionTypes = {
+  FETCH_RECENT_START: 'FETCH_RECENT_START',
+  FETCH_RECENT_SUCCESS: 'FETCH_RECENT_SUCCESS',
+  FETCH_RECENT_FAILURE: 'FETCH_RECENT_FAILURE'
+};
+
+export default recentActionTypes;

@@ -1,0 +1,7 @@
+const folderActionTypes = {
+  FETCH_FOLDER_START: 'FETCH_FOLDER_START',
+  FETCH_FOLDER_SUCCESS: 'FETCH_FOLDER_SUCCESS',
+  FETCH_FOLDER_FAILURE: 'FETCH_FOLDER_FAILURE'
+};
+
+export default folderActionTypes;
