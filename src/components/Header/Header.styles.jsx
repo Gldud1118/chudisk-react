@@ -12,22 +12,6 @@ export const HeaderContainer = styled.div`
   z-index: 20;
 `;
 
-export const LogoContainer = styled.div`
-  padding-left: 20px;
-`;
-
-export const LogoHead = styled.span`
-  color: #031a61;
-  font-weight: 700;
-`;
-
-export const Logo = styled(Link)`
-  line-height: 59px;
-  font-size: 24px;
-  color: #0168fa;
-  font-weight: 400;
-`;
-
 export const OptionsContainer = styled.div`
   width: 50%;
   height: 100%;
@@ -40,4 +24,8 @@ export const OptionsContainer = styled.div`
 export const OptionLink = styled(Link)`
   padding: 10px 15px;
   cursor: pointer;
+`;
+
+export const LogoContainer = styled.div`
+  padding-left: 20px;
 `;

@@ -6,7 +6,7 @@ import { ReactComponent as IconFolder } from '../../assets/folderTree.svg';
 import {
   FolderTreeLink,
   FolderTreeLevel,
-  FolderTreeName
+  FolderTreeName,
 } from './FolderTree.styles';
 
 class FolderTree extends Component {
@@ -15,7 +15,7 @@ class FolderTree extends Component {
     this.hasChildren = this.hasChildren.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
   }
 
@@ -26,7 +26,7 @@ class FolderTree extends Component {
   toggle(e) {
     e.preventDefault();
     console.log(e.target);
-    this.setState(state => {
+    this.setState((state) => {
       return { isOpen: !state.isOpen };
     });
   }
@@ -50,7 +50,7 @@ class FolderTree extends Component {
                 level === 0 ? '/disk/my-disk' : `/disk/folder/${items.folderId}`
               }
               style={{
-                paddingLeft: 15 * level + 'px'
+                paddingLeft: 15 * level + 'px',
               }}
             >
               <button onClick={this.toggle}>

@@ -1,10 +1,6 @@
 import React from 'react';
+import Header from '../components/Header/Header.component';
 
-const MainLayout = ({ children }) => (
-  <div>
-    <h1>Main</h1>
-    {children}
-  </div>
-);
+const MainLayout = ({ children }) => <>{children}</>;
 
 export default MainLayout;

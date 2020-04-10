@@ -8,7 +8,7 @@ import {
   DropdownItem,
   DropdownText
 } from '../CustomDropdown/CustomDropdown.styles';
-import { InputFile } from '../FormInput/FormInput.styles';
+import { InputFile } from '../InputWithLabel/InputWithLabel.styles';
 import {
   createFolderStart,
   uploadFileStart

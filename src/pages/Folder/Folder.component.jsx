@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
   selectFolderBox,
-  selectFolderBoxFetching
+  selectFolderBoxFetching,
 } from '../../redux/folder/folder.selectors';
 
 import { fetchFolderStart } from '../../redux/folder/folder.actions';
@@ -16,9 +16,9 @@ const FolderOverviewWithSpinner = WithSpinner(FolderOverview);
 
 class Folder extends Component {
   componentDidMount() {
+    console.log(this.props);
     const { fetchFolderStart, fetchFolderPathStart, match } = this.props;
     const folderId = match.params.folderId;
-
     fetchFolderStart(folderId);
     fetchFolderPathStart(folderId);
   }
@@ -47,15 +47,15 @@ class Folder extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  fetchFolderStart: folderId => dispatch(fetchFolderStart(folderId)),
-  fetchFolderPathStart: folderId => dispatch(fetchFolderPathStart(folderId))
+const mapDispatchToProps = (dispatch) => ({
+  fetchFolderStart: (folderId) => dispatch(fetchFolderStart(folderId)),
+  fetchFolderPathStart: (folderId) => dispatch(fetchFolderPathStart(folderId)),
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   folder: state.folder.resource,
   isLoading: state.folder.isFetching,
-  path: state.folderPath.path
+  path: state.folderPath.path,
 });
 // const mapStateToProps = createStructuredSelector({
 //   folder: selectFolderBox,

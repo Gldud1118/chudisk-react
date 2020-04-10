@@ -71,7 +71,7 @@ class DashboardLayout extends Component {
 
 const mapDispatchToProps = {
   toggleDropdownEdit: toggleDropdownEdit,
-  clearCurrentResource: clearCurrentResource
+  clearCurrentResource: clearCurrentResource,
 };
 
 export default withRouter(connect(null, mapDispatchToProps)(DashboardLayout));

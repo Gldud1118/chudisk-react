@@ -13,11 +13,14 @@ export const InputFile = styled.input.attrs({
   border: 0;
 `;
 
-export const Group = styled.div``;
+export const Group = styled.div`
+  margin: 20px 0;
+`;
 
-export const FormInputContainer = styled.input`
+export const InputWithLabelContainer = styled.input`
   display: block;
   width: 100%;
+  padding: 0 7px;
   font-weight: 400;
   line-height: 1.5;
   border-radius: 2px;

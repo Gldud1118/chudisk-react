@@ -4,6 +4,7 @@ import CustomModal from '../CustomModal/CustomModal.component';
 import WithFolderTreeData from '../WithFolderTreeData/WithFolderTreeData.component';
 import FolderTreeInsideModal from '../FolderTreeInsideModal/FolderTreeInsideModal.componenet';
 import CustomButton from '../CustomButton/CustomButton.component';
+import { CustomButtonWrapper } from '../CustomButton/CustomButton.styles';
 import { ModalWithLocationBody } from './ModalWithLocation.styles';
 import { setTargetFolderId } from '../../redux/currentResource/currentResource.actions';
 
@@ -16,7 +17,7 @@ class ModalWithLocation extends Component {
       handleCopyMove,
       handleClose,
       setTargetFolderId,
-      currentResource
+      currentResource,
     } = this.props;
     return (
       <>
@@ -26,15 +27,15 @@ class ModalWithLocation extends Component {
               <FolderTreeInsideModalWithData
                 isFirstOpen
                 currentResource={currentResource}
-                setTargetFolderId={id => setTargetFolderId(id)}
+                setTargetFolderId={(id) => setTargetFolderId(id)}
               />
             </ModalWithLocationBody>
-            <div>
-              <CustomButton>확인</CustomButton>
+            <CustomButtonWrapper align='right'>
+              <CustomButton onClick={() => handleCopyMove()}>확인</CustomButton>
               <CustomButton secondary onClick={() => handleClose(true)}>
                 취소
               </CustomButton>
-            </div>
+            </CustomButtonWrapper>
           </CustomModal>
         )}
       </>
@@ -42,12 +43,12 @@ class ModalWithLocation extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  setTargetFolderId: id => dispatch(setTargetFolderId(id))
+const mapDispatchToProps = (dispatch) => ({
+  setTargetFolderId: (id) => dispatch(setTargetFolderId(id)),
 });
 
-const mapStateToProps = state => ({
-  currentResource: state.currentResource.resource
+const mapStateToProps = (state) => ({
+  currentResource: state.currentResource.resource,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalWithLocation);

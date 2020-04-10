@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import equal from 'fast-deep-equal';
 import {
   DropdownItem,
-  DropdownText
+  DropdownText,
 } from '../CustomDropdown/CustomDropdown.styles';
 import CustomDropdown from '../CustomDropdown/CustomDropdown.component';
 import { ReactComponent as IconStar } from '../../assets/star.svg';
@@ -16,13 +16,14 @@ import { ReactComponent as IconDelete } from '../../assets/delete.svg';
 import {
   changeStarredStart,
   changeTrashedStart,
-  deleteStart
+  deleteStart,
+  restoreStart,
 } from '../../redux/updatedResource/updatedResource.actions';
 import {
   toggleModalRename,
   toggleModalCopy,
   toggleModalMove,
-  toggleDropdownEdit
+  toggleDropdownEdit,
 } from '../../redux/ui/ui.actions';
 
 class DropdownEdit extends Component {
@@ -33,12 +34,13 @@ class DropdownEdit extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleRestore = this.handleRestore.bind(this);
     this.dropdownRef = React.createRef();
     this.state = {
       style: {
         top: '',
-        left: ''
-      }
+        left: '',
+      },
     };
   }
 
@@ -48,11 +50,11 @@ class DropdownEdit extends Component {
     this.setState({
       style: {
         top: itemPosTop + 20 + 'px',
-        left: itemPosLeft + (itemPosWidth - (dropdownWidth + 25)) + 'px'
-      }
+        left: itemPosLeft + (itemPosWidth - (dropdownWidth + 25)) + 'px',
+      },
     });
     document.addEventListener('click', this.handleClickOutside);
-    Array.from(document.querySelectorAll('.dropdown-item')).forEach(item => {
+    Array.from(document.querySelectorAll('.dropdown-item')).forEach((item) => {
       console.log(this.handleClose);
       item.addEventListener('click', this.handleClose);
     });
@@ -60,7 +62,7 @@ class DropdownEdit extends Component {
 
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClickOutside);
-    Array.from(document.querySelectorAll('.dropdown-item')).forEach(item => {
+    Array.from(document.querySelectorAll('.dropdown-item')).forEach((item) => {
       item.removeEventListener('click', this.handleClose);
     });
   }
@@ -72,8 +74,8 @@ class DropdownEdit extends Component {
       this.setState({
         style: {
           top: itemPosTop + 20 + 'px',
-          left: itemPosLeft + (itemPosWidth - (dropdownWidth + 25)) + 'px'
-        }
+          left: itemPosLeft + (itemPosWidth - (dropdownWidth + 25)) + 'px',
+        },
       });
     }
   }
@@ -113,7 +115,7 @@ class DropdownEdit extends Component {
     changeStarredStart({
       resourceType,
       id,
-      starred
+      starred,
     });
   }
 
@@ -126,7 +128,7 @@ class DropdownEdit extends Component {
     changeTrashedStart({
       resourceType,
       id,
-      trashed
+      trashed,
     });
   }
 
@@ -137,16 +139,29 @@ class DropdownEdit extends Component {
 
     deleteStart({
       resourceType,
-      id
+      id,
     });
   }
+
+  handleRestore() {
+    const { restoreStart, currentResource } = this.props;
+    const resourceType = currentResource.resourceType;
+    const id = currentResource[`${resourceType}Id`];
+
+    restoreStart({
+      resourceType,
+      id,
+    });
+  }
+
   render() {
     const {
       toggleModalRename,
       toggleModalCopy,
       toggleModalMove,
-      currentResource
+      currentResource,
     } = this.props;
+    const { resourceType } = currentResource;
     return (
       <CustomDropdown style={this.state.style} ref={this.dropdownRef}>
         {!currentResource.trashed ? (
@@ -158,7 +173,14 @@ class DropdownEdit extends Component {
               <IconStar />
               <DropdownText>중요</DropdownText>
             </DropdownItem>
-            <DropdownItem href='' className='dropdown-item'>
+            <DropdownItem
+              href={`${
+                process.env.REACT_APP_API_HOST
+              }/api/disk/${resourceType}/download/${
+                currentResource[resourceType + 'Id']
+              }`}
+              className='dropdown-item'
+            >
               <IconDownload />
               <DropdownText>다운로드</DropdownText>
             </DropdownItem>
@@ -194,13 +216,13 @@ class DropdownEdit extends Component {
         ) : (
           <>
             <DropdownItem
-              onClick={this.handleChangeTrashed}
+              onClick={this.handleRestore}
               className='dropdown-item'
             >
               <IconRename />
               <DropdownText>복원</DropdownText>
             </DropdownItem>
-            <DropdownItem className='dropdown-item'>
+            <DropdownItem className='dropdown-item' onClick={this.handleDelete}>
               <IconDelete />
               <DropdownText>영구 삭제</DropdownText>
             </DropdownItem>
@@ -218,12 +240,14 @@ const mapDispatchToProps = {
   changeStarredStart: changeStarredStart,
   changeTrashedStart: changeTrashedStart,
   deleteStart: deleteStart,
-  toggleDropdownEdit: toggleDropdownEdit
+  restoreStart: restoreStart,
+  toggleDropdownEdit: toggleDropdownEdit,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   dropdownPos: state.ui.dropdownPos,
-  currentResource: state.currentResource.resource
+  currentResource: state.currentResource.resource,
+  updatedResource: state.updatedResource.resource,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DropdownEdit);

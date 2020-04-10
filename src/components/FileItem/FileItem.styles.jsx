@@ -47,4 +47,25 @@ export const FileExtension = styled.div``;
 
 export const FileIcon = styled.i``;
 
-export const BackgroundImage = styled.span``;
+export const getColor = (props) => {
+  switch (props.color) {
+    case 'red':
+      return '#dc3545';
+    case 'primary':
+      return '#0168fa';
+    case 'orange':
+      return '#fd7e14';
+    case 'green':
+      return '#10b759';
+    case 'gray':
+      return '#7987a1';
+    case 'indigo':
+      return '#6f42c1';
+    default:
+      return '#7987a1';
+  }
+};
+
+export const BackgroundImage = styled.span`
+  color: ${getColor};
+`;

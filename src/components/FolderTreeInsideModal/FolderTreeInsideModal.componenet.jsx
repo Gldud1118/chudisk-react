@@ -8,7 +8,7 @@ import { ReactComponent as IconFolder } from '../../assets/folderTree.svg';
 import {
   FolderTreeMenu,
   FolderTreeName,
-  FolderTreeToggle
+  FolderTreeToggle,
 } from './FolderTreeInsideModal.styles';
 
 class FolderTreeInsideModal extends Component {
@@ -19,8 +19,7 @@ class FolderTreeInsideModal extends Component {
     this.addActive = this.addActive.bind(this);
     this.state = {
       isOpen: false,
-      currentResource: null,
-      setTargetFolderId: null
+      parentFolderId: undefined,
     };
   }
   hasChildren(items) {
@@ -28,18 +27,26 @@ class FolderTreeInsideModal extends Component {
   }
 
   componentDidMount() {
-    const { isFirstOpen } = this.props;
+    const { isFirstOpen, currentResource } = this.props;
     if (isFirstOpen) {
       this.setState({
-        isOpen: true
+        isOpen: true,
       });
     }
+
+    const parentFolderId =
+      currentResource.type === 'file'
+        ? currentResource.folderId
+        : currentResource.parentId;
+
+    this.setState({
+      parentFolderId,
+    });
   }
 
   toggle(e) {
     e.preventDefault();
-    console.log(e.target);
-    this.setState(state => {
+    this.setState((state) => {
       return { isOpen: !state.isOpen };
     });
   }
@@ -47,12 +54,10 @@ class FolderTreeInsideModal extends Component {
   addActive(targetFolderId) {
     const { setTargetFolderId, currentResource } = this.props;
 
-    const parentFolderId =
-      currentResource.type === 'file'
-        ? currentResource.folderId
-        : currentResource.parentId;
-
-    if (targetFolderId !== parentFolderId) {
+    if (
+      targetFolderId !== this.state.parentFolderId &&
+      targetFolderId !== currentResource.folderId
+    ) {
       setTargetFolderId(targetFolderId);
     }
   }
@@ -64,12 +69,17 @@ class FolderTreeInsideModal extends Component {
         <FolderTreeMenu
           level={level}
           onClick={() => this.addActive(items.folderId)}
+          // sameLocation={
+          //   this.state.parentFolderId === items.folderId ||
+          //   currentResource.folderId === items.folderId
+          // }
         >
           <FolderTreeToggle onClick={this.toggle}>
             {this.state.isOpen ? <IconCaretDown /> : <IconCaretRight />}
           </FolderTreeToggle>
           {level === 0 ? <IconDevice /> : <IconFolder />}
           <FolderTreeName>{items.folderName}</FolderTreeName>
+          {/* {this.state.parentFolderId === items.folderId ? '현재 위치' : ''} */}
         </FolderTreeMenu>
 
         {this.hasChildren(items)
@@ -78,14 +88,14 @@ class FolderTreeInsideModal extends Component {
                 <div
                   key={`level=${level}-${i}`}
                   style={{
-                    display: this.state.isOpen ? 'block' : 'none'
+                    display: this.state.isOpen ? 'block' : 'none',
                   }}
                 >
                   <FolderTreeInsideModal
                     items={item}
                     level={level + 1}
                     currentResource={currentResource}
-                    setTargetFolderId={id => setTargetFolderId(id)}
+                    setTargetFolderId={(id) => setTargetFolderId(id)}
                   />
                 </div>
               );

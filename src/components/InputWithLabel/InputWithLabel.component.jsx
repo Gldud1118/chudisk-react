@@ -1,9 +1,9 @@
 import React from 'react';
-import { Group, FormInputContainer } from './FormInput.styles';
+import { Group, InputWithLabelContainer } from './InputWithLabel.styles';
 
-const FormInput = ({ handleChange, label, ...otherProps }) => (
+const InputWithLabel = ({ handleChange, label, ...otherProps }) => (
   <Group className='group'>
-    <FormInputContainer
+    <InputWithLabelContainer
       className='form-input'
       onChange={handleChange}
       {...otherProps}
@@ -12,4 +12,4 @@ const FormInput = ({ handleChange, label, ...otherProps }) => (
   </Group>
 );
 
-export default FormInput;
+export default InputWithLabel;

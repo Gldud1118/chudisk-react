@@ -2,18 +2,15 @@ import React from 'react';
 import {
   OptionsContainer,
   OptionLink,
-  Logo,
   HeaderContainer,
-  LogoHead,
   LogoContainer
 } from './Header.styles';
+import Logo from '../Logo/Logo.componenet';
 
 const Header = () => (
   <HeaderContainer>
     <LogoContainer>
-      <Logo to='/disk/my-disk' className='logo'>
-        <LogoHead>Chu</LogoHead>disk
-      </Logo>
+      <Logo />
     </LogoContainer>
   </HeaderContainer>
 );

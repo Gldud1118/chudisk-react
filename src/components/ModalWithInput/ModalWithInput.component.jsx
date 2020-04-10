@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import CustomModal from '../CustomModal/CustomModal.component';
-import FormInput from '../FormInput/FormInput.component';
+import InputWithLabel from '../InputWithLabel/InputWithLabel.component';
 import CustomButton from '../CustomButton/CustomButton.component';
+import { CustomButtonWrapper } from '../CustomButton/CustomButton.styles';
 
 class ModalWithInput extends Component {
   constructor(props) {
@@ -10,19 +11,19 @@ class ModalWithInput extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      name: e.target.value
+      name: e.target.value,
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const { handleCreate } = this.props;
     handleCreate(this.state);
 
     this.setState({
-      name: ''
+      name: '',
     });
   };
 
@@ -33,14 +34,14 @@ class ModalWithInput extends Component {
         {open && (
           <CustomModal title={title} handleClose={handleClose}>
             <form onSubmit={this.handleSubmit}>
-              <FormInput
+              <InputWithLabel
                 type='text'
                 value={this.state.name}
                 handleChange={this.handleChange}
               />
-              <div>
+              <CustomButtonWrapper align='right'>
                 <CustomButton type='submit'>생성하기</CustomButton>
-              </div>
+              </CustomButtonWrapper>
             </form>
           </CustomModal>
         )}

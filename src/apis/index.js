@@ -2,38 +2,45 @@ import axios from 'axios';
 
 const request = (method, url, data) => {
   return axios({
-    baseURL: 'https://localhost:44393/',
+    baseURL: 'https://localhost:44393',
     method,
     url,
     data,
+    withCredentials: true,
     headers: {
       'Content-Type':
-        data instanceof FormData ? 'multipart/form-data' : 'application/json'
-    }
+        data instanceof FormData ? 'multipart/form-data' : 'application/json',
+    },
   })
-    .then(result => result.data)
-    .catch(result => {
+    .then((result) => result.data)
+    .catch((result) => {
       throw result.response;
     });
+};
+
+export const setAuthInHeader = (token) => {
+  axios.defaults.headers.common['Authorization'] = token
+    ? `Bearer ${token}`
+    : null;
 };
 
 export const apiFetchRecent = () => {
   return request('get', '/api/disk/files/recent');
 };
 
-export const apiFetchFileLibrary = mimeType => {
+export const apiFetchFileLibrary = (mimeType) => {
   return request('get', `/api/disk/files/mimetype/${mimeType}`);
 };
 
-export const apiUploadFile = formData => {
+export const apiUploadFile = (formData) => {
   return request('post', '/api/disk/file', formData);
 };
 
-export const apiSearch = query => {
+export const apiSearch = (query) => {
   return request('get', `/api/disk/files/search?q=${query}`);
 };
 
-export const apiFetchFolder = folderId => {
+export const apiFetchFolder = (folderId) => {
   return request(
     'get',
     typeof folderId === 'undefined'
@@ -42,7 +49,7 @@ export const apiFetchFolder = folderId => {
   );
 };
 
-export const apiFetchFolderPath = folderId => {
+export const apiFetchFolderPath = (folderId) => {
   return request('get', `/api/disk/folderPath/${folderId}`);
 };
 
@@ -61,7 +68,7 @@ export const apiFetchStarred = () => {
 export const apiCreateFolder = (parentId, folderName) => {
   return request('post', '/api/disk/folder', {
     parentId,
-    folderName
+    folderName,
   });
 };
 
@@ -99,6 +106,14 @@ export const apiMove = (resourceType, id, targetFolderId) => {
   );
 };
 
-export const apiLogin = (email, password) => {
-  return request('post', '/api/account/login', { email, password });
+export const apiSignIn = (email, password) => {
+  return request('post', '/api/account/signin', { email, password });
+};
+
+export const apiSignUp = (userCredentials) => {
+  return request('post', '/api/account/signup', userCredentials);
+};
+
+export const apiCheck = () => {
+  return request('get', '/api/account/check');
 };

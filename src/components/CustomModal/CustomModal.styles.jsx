@@ -13,7 +13,6 @@ export const ModalContainer = styled.div`
 
 export const ModalHeader = styled.div`
   display: flex;
-  margin-bottom: 15px;
   justify-content: space-between;
 `;
 

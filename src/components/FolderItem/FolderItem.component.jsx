@@ -4,7 +4,7 @@ import {
   FolderItemContainer,
   FolderItemInner,
   FolderName,
-  MenuButton
+  MenuButton,
 } from './FolderItem.styles';
 import { setDropdownPos, toggleDropdownEdit } from '../../redux/ui/ui.actions';
 import { setCurrentResource } from '../../redux/currentResource/currentResource.actions';
@@ -26,7 +26,7 @@ class FolderItem extends Component {
       isOpenDropdownEdit,
       setCurrentResource,
       currentResource,
-      folder
+      folder,
     } = this.props;
     const { offsetTop, offsetLeft, offsetWidth } = this.itemRef.current;
 
@@ -40,7 +40,7 @@ class FolderItem extends Component {
         setDropdownPos({
           itemPosTop: offsetTop,
           itemPosLeft: offsetLeft,
-          itemPosWidth: offsetWidth
+          itemPosWidth: offsetWidth,
         });
       } else {
         isOpenDropdownEdit === false
@@ -53,17 +53,22 @@ class FolderItem extends Component {
       setDropdownPos({
         itemPosTop: offsetTop,
         itemPosLeft: offsetLeft,
-        itemPosWidth: offsetWidth
+        itemPosWidth: offsetWidth,
       });
     }
   }
   render() {
-    const { folder } = this.props;
+    const { folder, updatedResource, actionType } = this.props;
     return (
       <FolderItemContainer ref={this.itemRef}>
         <FolderItemInner to={`/disk/folder/${folder.folderId}`}>
           <FolderIcon />
-          <FolderName>{folder.folderName}</FolderName>
+          <FolderName>
+            {actionType === 'RENAME_SUCCESS' &&
+            updatedResource.folderId === folder.folderId
+              ? updatedResource.folderName
+              : folder.folderName}
+          </FolderName>
           <MenuButton
             onClick={this.handleClick}
             data-toggle='dropdown'
@@ -77,15 +82,17 @@ class FolderItem extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  setDropdownPos: itemPos => dispatch(setDropdownPos(itemPos)),
-  setCurrentResource: resource => dispatch(setCurrentResource(resource)),
-  toggleDropdownEdit: bool => dispatch(toggleDropdownEdit(bool))
+const mapDispatchToProps = (dispatch) => ({
+  setDropdownPos: (itemPos) => dispatch(setDropdownPos(itemPos)),
+  setCurrentResource: (resource) => dispatch(setCurrentResource(resource)),
+  toggleDropdownEdit: (bool) => dispatch(toggleDropdownEdit(bool)),
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isOpenDropdownEdit: state.ui.isOpenDropdownEdit,
-  currentResource: state.currentResource.resource
+  currentResource: state.currentResource.resource,
+  updatedResource: state.updatedResource.resource,
+  actionType: state.updatedResource.actionType,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FolderItem);

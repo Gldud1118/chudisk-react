@@ -6,14 +6,14 @@ import {
   createFolderStart,
   renameStart,
   copyStart,
-  moveStart
+  moveStart,
 } from '../../redux/updatedResource/updatedResource.actions';
 
 import {
   toggleModalNew,
   toggleModalRename,
   toggleModalCopy,
-  toggleModalMove
+  toggleModalMove,
 } from '../../redux/ui/ui.actions';
 
 class Modals extends Component {
@@ -44,14 +44,14 @@ class Modals extends Component {
       copyStart,
       currentResource,
       toggleModalCopy,
-      targetFolderId
+      targetFolderId,
     } = this.props;
     const resourceType = currentResource.resourceType;
     const id = currentResource[`${resourceType}Id`];
     copyStart({
       resourceType,
       id,
-      targetFolderId
+      targetFolderId,
     });
     toggleModalCopy(false);
   }
@@ -61,14 +61,14 @@ class Modals extends Component {
       moveStart,
       currentResource,
       toggleModalMove,
-      targetFolderId
+      targetFolderId,
     } = this.props;
     const resourceType = currentResource.resourceType;
     const id = currentResource[`${resourceType}Id`];
     moveStart({
       resourceType,
       id,
-      targetFolderId
+      targetFolderId,
     });
     toggleModalMove(false);
   }
@@ -82,7 +82,7 @@ class Modals extends Component {
       toggleModalNew,
       toggleModalCopy,
       toggleModalMove,
-      toggleModalRename
+      toggleModalRename,
     } = this.props;
     return (
       <>
@@ -101,13 +101,13 @@ class Modals extends Component {
         <ModalWithLocation
           title='복사하기'
           open={isOpenModalCopy}
-          handleCopyMove={() => this.handleCopy}
+          handleCopyMove={this.handleCopy}
           handleClose={() => toggleModalCopy(false)}
         />
         <ModalWithLocation
           title='이동하기'
           open={isOpenModalMove}
-          handleCopyMove={() => this.handleMove}
+          handleCopyMove={this.handleMove}
           handleClose={() => toggleModalMove(false)}
         />
       </>
@@ -123,17 +123,17 @@ const mapDispatchToProps = {
   toggleModalNew: toggleModalNew,
   toggleModalRename: toggleModalRename,
   toggleModalCopy: toggleModalCopy,
-  toggleModalMove: toggleModalMove
+  toggleModalMove: toggleModalMove,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   parentId: state.folder.resource.folderId,
   currentResource: state.currentResource.resource,
   targetFolderId: state.currentResource.targetFolderId,
   isOpenModalNew: state.ui.isOpenModalNew,
   isOpenModalRename: state.ui.isOpenModalRename,
   isOpenModalCopy: state.ui.isOpenModalCopy,
-  isOpenModalMove: state.ui.isOpenModalMove
+  isOpenModalMove: state.ui.isOpenModalMove,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modals);
