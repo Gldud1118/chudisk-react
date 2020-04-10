@@ -9,6 +9,7 @@ import uiReducer from './ui/ui.reducer';
 import folderTreeReducer from './folderTree/folderTree.reducer';
 import folderPathReducer from './folderPath/folderPath.reducer';
 import fileLibraryReducer from './fileLibrary/fileLibrary.reducer';
+import authReducer from './auth/auth.reducer';
 
 const rootReducer = combineReducers({
   folder: folderReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   currentResource: currentResourceReducer,
   updatedResource: updatedResourceReducer,
   ui: uiReducer,
-  fileLibrary: fileLibraryReducer
+  fileLibrary: fileLibraryReducer,
+  auth: authReducer
 });
 
 export default rootReducer;

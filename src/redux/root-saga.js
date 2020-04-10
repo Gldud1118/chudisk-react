@@ -8,6 +8,7 @@ import { updatedResourceSagas } from './updatedResource/updatedResource.sagas';
 import { folderPathSagas } from './folderPath/folderPath.sagas';
 import { folderTreeSagas } from './folderTree/folderTree.sagas';
 import { fileLibrarySagas } from './fileLibrary/fileLibrary.sagas';
+import { authSagas } from './auth/auth.sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -18,6 +19,7 @@ export default function* rootSaga() {
     call(recentSagas),
     call(folderPathSagas),
     call(folderTreeSagas),
-    call(fileLibrarySagas)
+    call(fileLibrarySagas),
+    call(authSagas),
   ]);
 }

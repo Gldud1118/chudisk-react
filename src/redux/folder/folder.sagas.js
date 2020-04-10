@@ -1,4 +1,4 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
+import { takeLatest, put, call, all } from 'redux-saga/effects';
 import folderActionTypes from './folder.types';
 import { apiFetchFolder } from '../../apis';
 import { convertArrayToMap } from '../../utils/utils';
@@ -16,7 +16,7 @@ export function* fetchFolderAsync({ payload: folderId }) {
     yield put(
       fetchFolderSuccess({
         folderId: response.folderId,
-        items: itemsMap
+        items: itemsMap,
       })
     );
   } catch (error) {
@@ -31,5 +31,5 @@ export function* watchFetchFolderStart() {
 }
 
 export function* folderSagas() {
-  yield call(watchFetchFolderStart);
+  yield all([call(watchFetchFolderStart)]);
 }
